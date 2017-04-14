@@ -21,16 +21,30 @@
 
 		<script>
 			$(function(){
-			var w,h
-				$("#rect1").on("swipeleft",function(){
-					w=randNum(50);
+			var w,h,pos,pos1;
+				$("#rect1").on("click swipeleft",function(){
+					w=50;
 					h=randNum(500);
 					$(this).animate({'width':w,'height':h},200);
+					if($(this).height()<50)
+					{
+						$(this).hide(500);
+						alert("Game over");
+						}
 					});
-					$("#rect1").on("swiperight",function(){
+					$("#rect1").on("dblclick swiperight",function(){
 					w=randNum(500);
-					h=randNum(50);
+					h=50;
 					$(this).animate({'width':w,'height':h},500);
+					if($(this).width()<50){
+						$(this).hide(500);
+						alert("Game over");
+						}
+					});
+					$("#rect1").on("click swipe",function(){
+						pos=randNum(100);
+						pos1=randNum(50);
+						$(this).animate({'top':pos,'left':pos1},500);
 					});
 
 				});
