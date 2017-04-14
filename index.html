@@ -8,7 +8,13 @@
 		<meta name="viewport" content="width=device-width; initial-scale=1.0">
 		<style>
 		#rect1{
-		position: relative;width:225px;height:250px;background-color:green;margin:0 0;
+		position: relative;width:225px;height:250px;background-color:green;margin:0 0;border-radius: 100%;
+		}
+		#playagain{
+			margin :0 0;position: relative;width:100px;height:50px;background-color:orange;color:green;display:none;
+		}
+		#happy{
+			position: relative;margin:0 0;color:blue;font:16px bold serif;margin:25%;display:none;
 		}
 		</style>
 		<link rel="stylesheet" href="jquery.mobile-1.4.5.min.css" />
@@ -20,33 +26,40 @@
 
 
 		<script>
-			$(function(){
+			$(document).on("pageinit",function(){
 			var w,h,pos,pos1;
+			var aud=new Audio("ding.wav");
+			function playgame(){
+				$("#playagain").hide();
+				$("#happy").hide();
+				$("#rect1").show();
 				$("#rect1").on("click swipeleft",function(){
-					w=50;
+					$("#happy").hide();
+					w=randNum(500);
 					h=randNum(500);
 					$(this).animate({'width':w,'height':h},200);
-					if($(this).height()<50)
+					if($(this).height()-$(this).width()<=10 || $(this).width-$(this).height()<=10){
+						$("#happy").show();
+						$("#happy").animate({'fontSize':'100px'},300);
+						aud.play();
+					}
+					if($(this).height()<50 &&$(this).width()<50)
 					{
 						$(this).hide(500);
 						alert("Game over");
+						$("#playagain").show(100);
 						}
 					});
-					$("#rect1").on("dblclick swiperight",function(){
-					w=randNum(500);
-					h=50;
-					$(this).animate({'width':w,'height':h},500);
-					if($(this).width()<50){
-						$(this).hide(500);
-						alert("Game over");
-						}
-					});
+
 					$("#rect1").on("click swipe",function(){
 						pos=randNum(100);
 						pos1=randNum(50);
 						$(this).animate({'top':pos,'left':pos1},500);
 					});
 
+			}
+			playgame();
+				$("#playagain").on("click",{msg: "You just clicked me! Now play game"},playgame);
 				});
 
 		</script>
@@ -62,7 +75,8 @@
 			</div>
 			</div>
 
-
+			<button id="playagain">Play again</button>
+			<div id="happy">Hooray!, you have a perfect circle</div>
 
 		</body>
 		</html>
